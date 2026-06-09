@@ -1,0 +1,35 @@
+#autosave and recovery
+*.asv
+*.m~
+autosave/
+
+slprj/
+codegen/
+
+# Simulink cache files
+*.slxc
+
+# MATLAB compiled files
+*.mex*
+*.p
+
+# Simulink autosave backup files
+*/autosave/*.slx
+
+# MATLAB preference and session files
+*.prf
+
+# Build artifacts
+work/
+
+# Large binary mat files you don't want versioned
+# (comment this out if you DO want mat files tracked)
+# *.mat
+
+# System Composer report outputs
+*.html
+*.pdf
+
+# OS artifacts
+.DS_Store
+Thumbs.db
