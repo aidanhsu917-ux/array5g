@@ -1,7 +1,16 @@
 # MATLAB Simulink System Composer Onramp
 
-Checkpoint for the day: submission 1
+Checkpoint for the day: submission 2
+## Create and Apply Interfaces
+Interfaces are applied in the Interface Editor directly, selecting the ports to change, and applying in that panel.
+"Dot notation" with "adapter components".
+"Data dictionaries".
 
+## Profiles and Stereotypes
+*Profiles* are the categories that are assigned to conmponents.
+*Stereotypes* are the definitions of different attributes of profiles.
+What is "SWAP-C analysis"?
+Profiles are not tied to the model, and all must be imported.
 
 ## Shorthand Notes: 
 “Digital thread to link architecture and requirements”
