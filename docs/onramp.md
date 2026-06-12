@@ -12,6 +12,15 @@ Interfaces are applied in the Interface Editor directly, selecting the ports to 
 What is "SWAP-C analysis"?
 Profiles are not tied to the model, and all must be imported.
 
+## Requirements
+I usually make the architecture before the requirements, but that's not the good way to do it
+Requirememts allocation (prelim design)
+Show what is meant to simulate and test certain parts
+[APPS] > [REQUIREMENT PERSPECTIVE] > 
+Import externally created requirements sounds fantastic
+when an onramp is created, the files are actually stored locally. If the simulation breaks, you view the error log and dissect where the problem might be
+
+
 ## Shorthand Notes: 
 “Digital thread to link architecture and requirements”
 “Metadata as stereotypes”
