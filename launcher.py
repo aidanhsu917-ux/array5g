@@ -166,42 +166,45 @@ for name, filename in SCRIPTS.items():
 
         def on_leave(e):
             canvas.itemconfig(rect, fill=BUTTON_BG)
-def on_click(e):
-canvas.itemconfig(rect, fill=BUTTON_ACTIVE)
-canvas.after(100, lambda: launch_script(filename))
+
+        def on_click(e):
+            canvas.itemconfig(rect, fill=BUTTON_ACTIVE)
+            canvas.after(100, lambda: launch_script(filename))
 # Rounded rectangle (simulated with polygon)
-radius = 15
-width = canvas.winfo_reqwidth()
-if width <= 1:
-width = 400
-height = 70
-rect = canvas.create_rectangle(
-10, 10, width-10, height-10,
-fill=BUTTON_BG,
-outline="",
-width=0
-)
-text_item = canvas.create_text(
-width//2, height//2,
-text=text,
-fill=TEXT_COLOR,
-font=("Segoe UI", 14, "bold")
-)
-canvas.bind("<Enter>", on_enter)
-canvas.bind("<Leave>", on_leave)
-canvas.bind("<Button-1>", on_click)
-return rect, text_item
-# Delay button creation until canvas is sized
-canvas.update()
-create_rounded_button(canvas, name, filename)
+        radius = 15
+        width = canvas.winfo_reqwidth()
+        if width <= 1:
+            width = 400
+        height = 70
+        rect = canvas.create_rectangle(
+            10, 10, width-10, height-10,
+            fill=BUTTON_BG,
+            outline="",
+            width=0
+        )
+
+        text_item = canvas.create_text(
+            width//2, height//2,
+            text=text,
+            fill=TEXT_COLOR,
+            font=("Segoe UI", 14, "bold")
+        )
+        canvas.bind("<Enter>", on_enter)
+        canvas.bind("<Leave>", on_leave)
+        canvas.bind("<Button-1>", on_click)
+
+        return rect, text_item
+    
+    # Delay button creation until canvas is sized
+    canvas.update()
+    create_rounded_button(canvas, name, filename)
 # Footer text
 footer = tk.Label(
-main_frame,
-
-text="Select a demo to begin",
-font=("Segoe UI", 9),
-bg=BG_COLOR,
-fg="#666666"
+    main_frame,
+    text="Select a demo to begin",
+    font=("Segoe UI", 9),
+    bg=BG_COLOR,
+    fg="#666666"
 )
 footer.pack(side="bottom", pady=(15, 0))
 # Start connection status updates
