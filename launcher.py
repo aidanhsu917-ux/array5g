@@ -7,7 +7,8 @@ import threading
 
 SCRIPTS = {
 "Pluto Line Tracking": "Pluto_beamformer_Monopulse_youtube.py",
-"Pluto Compass Tracking": "compass_launcher.py",
+#changed to half_moon_compass.py
+"Pluto Compass Tracking": "half_moon_compass.py",
 "Angle with Null": "Pluto_MVDR_DOA.py",
 }
 PLUTO_IP = "192.168.2.1"
@@ -49,7 +50,7 @@ def launch_script(script_filename):
             "File Not Found",
             f"Could not find:\n{full_path}\n\nCheck the file name or location.",
         )
-    return
+        return
 # Start the selected script using the same Python interpreter
     subprocess.Popen([sys.executable, full_path])
 # Optionally close the launcher after starting the script
