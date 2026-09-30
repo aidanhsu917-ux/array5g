@@ -1,0 +1,20 @@
+# Issues by Date
+## 09-29-2026
+```python
+def dbfs(raw_data):
+    # function to convert IQ samples to FFT plot, scaled in dBFS
+    NumSamples = len(raw_data)
+    win = np.hamming(NumSamples)
+    y = raw_data * win
+    s_fft = np.fft.fft(y) / np.sum(win)
+    s_shift = np.fft.fftshift(s_fft)
+    s_dbfs = 20*np.log10(np.abs(s_shift)/(2**11)) #triggers divide by 0 if log(0) taken
+    return s_dbfs
+```
+**What is the purpose of dbfs?**
+Remember: arange is like linspace in Matlab. 
+Arange does not use the endpoint, step size is 1, base start is 0. 
+If: the output for (object:np.array).shape[1] == 0, that empty space represents a 1. 
+When using (object:np.array).reshape(-1, a), the -1 refers to letting numpy guess the size of that axis. It's like don't care in comp arch. The 2nd axis is forced to match the size of a. 
+*np.fft.fftshift(arr_in)* takes arr_in, and outputs arr_in, but with the 0 freq component @ the center of the spectrum. 
+https://numpy.org/doc/2.5/reference/generated/numpy.fft.fftshift.html#numpy.fft.fftshift

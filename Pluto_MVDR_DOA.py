@@ -55,7 +55,7 @@ else:
 def dbfs(raw_data):
     # function to convert IQ samples to FFT plot, scaled in dBFS
     NumSamples = len(raw_data)
-    win = np.hamming(NumSamples)
+    win = np.hamming(NumSamples) #generate a sample hamming, which should scale in size?
     y = raw_data * win
     s_fft = np.fft.fft(y) / np.sum(win)
     s_shift = np.fft.fftshift(s_fft)
@@ -84,7 +84,7 @@ try:
         theta_scan = np.linspace(-1*np.pi/2, np.pi/2, 100) # between -90 and +90 degrees
         doa_conv = []
         doa_mvdr = []
-        for theta_i in theta_scan:
+        for theta_i in theta_scan: #iter thru -90 to 90, 100 steps
             theta_i = theta_i + phase_offset
             s = np.exp(-2j * np.pi * d * center_freq/c * np.arange(Nr) * np.sin(theta_i)) # steering vector in the desired direction theta_i
             s = s.reshape(-1,1) # make into a column vector
@@ -96,8 +96,9 @@ try:
 # MVDR DOA
             w = w_mvdr(theta_i, x)
             y = w.conj().T @ x
-            max_signal = np.max(dbfs(y))
+            max_signal = np.max(dbfs(y)) 
             doa_mvdr.append(max_signal)
+
         doa_conv -= np.max(doa_conv) # normalize so peak is at 0 dB
         doa_mvdr -= np.max(doa_mvdr) # normalize so peak is at 0 dB
         # Plot the results real time
