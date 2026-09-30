@@ -10,14 +10,17 @@ import pandas as pd
 import plotly.graph_objects as go
 import time
 from plotly.offline import plot
+import os
 #}import
 
 #modules{
 def main():
     start = time.time()
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(script_dir, 'DATA.csv')
 
     #reading the csv measurement file
-    data = pd.read_csv('DATA.csv', header = None)
+    data = pd.read_csv(file_path, header = None)
 
     phi = np.asarray(data.iloc[1:,0])
     theta = np.asarray(data.iloc[0,1:])
@@ -42,18 +45,20 @@ def main():
     PHI = PHI.reshape(s_power.shape[0],s_power.shape[1])
     R = R.reshape(s_power.shape[0],s_power.shape[1])
 
-    X = R * np.sin(THETA) * np.cos(PHI)
-    Y = R * np.sin(THETA) * np.sin(PHI)
-    Z = R * np.cos(THETA) 
+    X = np.asarray(R * np.sin(THETA) * np.cos(PHI))
+    Y = np.asarray(R * np.sin(THETA) * np.sin(PHI))
+    Z = np.asarray(R * np.cos(THETA))
 
     print(X.ravel()) #has negative values- how?
+    print(np.max(X))
 
     #setup layout and plot on 3d surface
     #axis ranges do not match input values
     #ex: np.min(X) is -16, 0 least shown on graph
     #layout = go.Layout(title = "3D Radiation Pattern of 5G CW data", xaxis = dict(nticks = s_power.shape[0], range=[np.min(X),np.max(X)]), yaxis = dict(nticks = s_power.shape[1], range=[np.min(Y),np.max(Y)]))
-    fig = go.Figure(data=[go.Mesh3d(x=X.ravel(), y=Y.ravel(), z=Z.ravel(), intensity = R, colorscale='jet', colorbar = dict(title = "Gain", thickness = 50, xpad = 500))])
-    fig.update_layout(autosize = True, scene = dict(xaxis = dict(nticks = 10, range=[np.min(X),np.max(X)]), yaxis = dict(nticks = 10, range=[np.min(Y),np.max(Y)]), zaxis = dict(nticks = 10, range = [np.min(Z), np.max(Z)])), margin = dict(l = 50, r = 50, t = 250, b = 250))
+    #when trying ot map meshgrids to 
+    fig = go.Figure(data=[go.Surface(x=X, y=Y, z=Z, surfacecolor = R, colorscale='jet', colorbar = dict(title = "Gain", thickness = 50, xpad = 500))])
+    fig.update_layout(autosize = True, scene = dict(xaxis = dict(type = 'linear', nticks = 10,), yaxis = dict(nticks = 10), zaxis = dict(nticks = 10)))
     fig.show()
     print("Time elapsed: ",time.time() - start, " seconds")
 #}modules
