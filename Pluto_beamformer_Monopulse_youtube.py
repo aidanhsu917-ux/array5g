@@ -68,7 +68,7 @@ rx_gain1 = 40
 tx_lo = rx_lo
 tx_gain = -3
 fc0 = int(200e3)
-phase_cal = 0
+phase_cal = -140
 tracking_length = 1000
 
 ''' Set distance between Rx antennas '''
@@ -212,7 +212,7 @@ for i in range(20):
     data = sdr.rx()
 
  #scan once to get the direction of arrival (steer_angle) as the initial point for out monopulse tracker
-delay_phases, peak_dbfs, peak_delay, steer_angle, peak_sum, peak_delta, monopulse_phase = scan_for_DOA()
+delay_phases, peak_dbfs, peak_delay, steer_angle, peak_sum, peak_delta, monopulse_phase = scan_for_DOA() #first def call
 delay = peak_delay # this will be the starting point if we are doing monopulse tracking
 tracking_angles = np.ones(tracking_length)*180
 tracking_angles[:-1] = -180 # make a line across the plot when tracking begins
