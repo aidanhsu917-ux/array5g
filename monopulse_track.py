@@ -68,7 +68,7 @@ rx_gain1 = 40
 tx_lo = rx_lo
 tx_gain = -3
 fc0 = int(200e3)
-phase_cal = 116
+phase_cal = -200
 tracking_length = 1000
 
 ''' Set distance between Rx antennas '''
@@ -78,34 +78,68 @@ d = d_wavelength*wavelength # distance between elements in meters
 print("Set distance between Rx Antennas to ", int(d*1000), "mm")
 
 '''Create Radios'''
-sdr = adi.ad9361(uri='ip:192.168.2.1')
+sdr1 = adi.ad9361(uri='ip:192.168.2.1')
+sdr2 = adi.ad9361(uri='ip:192.168.3.1')
+# sdr = sdr1
 
 '''Configure properties for the Rx Pluto'''
-sdr.rx_enabled_channels = [0, 1]
-sdr.sample_rate = int(samp_rate)
-sdr.rx_rf_bandwidth = int(fc0*3)
-sdr.rx_lo = int(rx_lo)
-sdr.gain_control_mode = rx_mode
-sdr.rx_hardwaregain_chan0 = int(rx_gain0)
-sdr.rx_hardwaregain_chan1 = int(rx_gain1)
-sdr.rx_buffer_size = int(NumSamples)
-sdr._rxadc.set_kernel_buffers_count(1) # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
-sdr.tx_rf_bandwidth = int(fc0*3)
-sdr.tx_lo = int(rx_lo)
-sdr.tx_cyclic_buffer = True
-sdr.tx_hardwaregain_chan0 = int(tx_gain)
-sdr.tx_hardwaregain_chan1 = int(-88)
-sdr.tx_buffer_size = int(2**18)
+
+# sdr.rx_enabled_channels = [0]
+# sdr.sample_rate = int(samp_rate)
+# sdr.rx_rf_bandwidth = int(fc0*3)
+# sdr.rx_lo = int(rx_lo)
+# sdr.gain_control_mode = rx_mode
+# sdr.rx_hardwaregain_chan0 = int(rx_gain0)
+# sdr.rx_buffer_size = int(NumSamples)
+# sdr._rxadc.set_kernel_buffers_count(1) # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
+# sdr.tx_rf_bandwidth = int(fc0*3)
+# sdr.tx_lo = int(rx_lo)
+# sdr.tx_cyclic_buffer = True
+# sdr.tx_hardwaregain_chan0 = int(tx_gain)
+# sdr.tx_hardwaregain_chan1 = int(-88)
+# sdr.tx_buffer_size = int(2**18)
+
+sdr1.rx_enabled_channels = [0]
+sdr1.sample_rate = int(samp_rate)
+sdr1.rx_rf_bandwidth = int(fc0*3)
+sdr1.rx_lo = int(rx_lo)
+sdr1.gain_control_mode = rx_mode
+sdr1.rx_hardwaregain_chan0 = int(rx_gain0)
+sdr1.rx_buffer_size = int(NumSamples)
+sdr1._rxadc.set_kernel_buffers_count(1) # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
+sdr1.tx_rf_bandwidth = int(fc0*3)
+sdr1.tx_lo = int(rx_lo)
+sdr1.tx_cyclic_buffer = True
+sdr1.tx_hardwaregain_chan0 = int(tx_gain)
+sdr1.tx_hardwaregain_chan1 = int(-88)
+sdr1.tx_buffer_size = int(2**18)
+
+sdr2.rx_enabled_channels = [0]
+sdr2.sample_rate = int(samp_rate)
+sdr2.rx_rf_bandwidth = int(fc0*3)
+sdr2.rx_lo = int(rx_lo)
+sdr2.gain_control_mode = rx_mode
+sdr2.rx_hardwaregain_chan0 = int(rx_gain0)
+sdr2.rx_buffer_size = int(NumSamples)
+sdr2._rxadc.set_kernel_buffers_count(1) # set buffers to 1 (instead of the default 4) to avoid stale data on Pluto
+sdr2.tx_rf_bandwidth = int(fc0*3)
+sdr2.tx_lo = int(rx_lo)
+sdr2.tx_cyclic_buffer = True
+sdr2.tx_hardwaregain_chan0 = int(tx_gain)
+sdr2.tx_hardwaregain_chan1 = int(-88)
+sdr2.tx_buffer_size = int(2**18)
 
 '''Program Tx and Send Data'''
-fs = int(sdr.sample_rate)
+fs = int(sdr1.sample_rate)
 N = 2**16
 ts = 1 / float(fs)
 t = np.arange(0, N * ts, ts)
 i0 = np.cos(2 * np.pi * t * fc0) * 2 ** 14
 q0 = np.sin(2 * np.pi * t * fc0) * 2 ** 14
 iq0 = i0 + 1j * q0
-sdr.tx([iq0,iq0]) # Send Tx data.
+# sdr.tx([iq0,iq0]) # Send Tx data.
+sdr1.tx([iq0]) # Send Tx data.
+sdr2.tx([iq0]) # Send Tx data.
 
 # Assign frequency bins and "zoom in" to the fc0 signal on those frequency bins
 xf = np.fft.fftfreq(NumSamples, ts)
@@ -144,13 +178,19 @@ def monopulse_angle(array1, array2):
 
 def scan_for_DOA():
  # go through all the possible phase shifts and find the peak, that will be the DOA (direction of arrival) aka steer_angle
-    data = sdr.rx()
-    Rx_0=data[0]
-    Rx_1=data[1]
+    # data = sdr.rx()
+    # Rx_0=data[0]
+    # Rx_1=data[1]
+
+    data = {sdr1.rx(), sdr2.rx()}
+    Rx_0 = data[0]
+    Rx_1 = data[1]
+
     peak_sum = []
     peak_delta = []
     monopulse_phase = []
     delay_phases = np.arange(-180, 180, 2) # phase delay in degrees
+
 
     for phase_delay in delay_phases:
         delayed_Rx_1 = Rx_1 * np.exp(1j*np.deg2rad(phase_delay+phase_cal))
@@ -173,9 +213,14 @@ def scan_for_DOA():
 
 def Tracking(last_delay):
  # last delay is the peak_delay (in deg) from the last buffer of data collected
-    data = sdr.rx()
-    Rx_0=data[0]
-    Rx_1=data[1]
+    # data = sdr.rx()
+    # Rx_0=data[0]
+    # Rx_1=data[1]
+
+    data = {sdr1.rx(), sdr2.rx()}
+    Rx_0 = data[0]
+    Rx_1 = data[1]
+
     delayed_Rx_1 = Rx_1 * np.exp(1j*np.deg2rad(last_delay+phase_cal))
     delayed_sum = Rx_0 + delayed_Rx_1
     delayed_delta = Rx_0 - delayed_Rx_1
@@ -209,7 +254,10 @@ p1.getAxis("bottom").setTickFont(fn)
 '''Collect Data'''
 for i in range(20):
  # let Pluto run for a bit, to do all its calibrations
-    data = sdr.rx()
+    # data = sdr.rx()
+    data = {sdr1.rx(), sdr2.rx()}
+    Rx_0 = data[0]
+    Rx_1 = data[1]
 
  #scan once to get the direction of arrival (steer_angle) as the initial point for out monopulse tracker
 delay_phases, peak_dbfs, peak_delay, steer_angle, peak_sum, peak_delta, monopulse_phase = scan_for_DOA()
@@ -238,4 +286,5 @@ if __name__ == '__main__':
     if (sys.flags.interactive != 1) or not hasattr(QtCore, 'PYQT_VERSION'):
         pg.exec()
 
-sdr.tx_destroy_buffer()
+sdr1.tx_destroy_buffer()
+sdr2.tx_destroy_buffer()
