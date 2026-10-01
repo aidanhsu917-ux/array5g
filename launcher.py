@@ -11,14 +11,15 @@ SCRIPTS = {
 "Pluto Compass Tracking": "half_moon_compass.py",
 "Angle with Null": "Pluto_MVDR_DOA.py",
 }
-PLUTO_IP = "192.168.2.1"
+PLUTO_IP1 = "192.168.2.1"
+PLUTO_IP2 = "192.168.3.1"
 
-def check_pluto_connection():
+def check_pluto_connection2():
     """Check if Pluto SDR is connected and accessible."""
 
     try:
         import adi
-        sdr = adi.ad9361(uri=f'ip:{PLUTO_IP}')
+        sdr = adi.ad9361(uri=f'ip:{PLUTO_IP2}')
         # Try to read a simple property to verify connection
         _ = sdr.sample_rate
         return True
@@ -26,16 +27,43 @@ def check_pluto_connection():
     except Exception:
         return False
 
+
+def check_pluto_connection1():
+    """Check if Pluto SDR is connected and accessible."""
+
+    try:
+        import adi
+        sdr = adi.ad9361(uri=f'ip:{PLUTO_IP1}')
+        # Try to read a simple property to verify connection
+        _ = sdr.sample_rate
+        return True
+
+    except Exception:
+        return False
+
 def update_connection_status():
     """Update the connection status indicator in a separate thread."""
     def check_and_update():
-        is_connected = check_pluto_connection()
-        if is_connected:
-            status_label.config(text="Pluto Connected", foreground="#00ff88")
-            status_indicator.config(background="#00ff88")
+        is_connected1 = check_pluto_connection1()
+        is_connected2 = check_pluto_connection2()
+        global indicator_color
+        if is_connected1 and is_connected2:
+            status_label1.config(text="Pluto1 Connected", foreground="#00ff88")
+            status_label2.config(text="Pluto2 Connected", foreground="#00ff88")
+            indicator_color = "#00ff88"
+
+        elif is_connected1:
+            status_label1.config(text="Pluto1 Connected", foreground="#00ff88")
+            status_label2.config(text="Pluto2 Not Detected", foreground="#ff4444")
+        elif is_connected2:
+            status_label1.config(text="Pluto1 Not Detected", foreground="#ff4444")
+            status_label2.config(text="Pluto2 Connected", foreground="#00ff88")
         else:
-            status_label.config(text="Pluto Not Detected", foreground="#ff4444")
-            status_indicator.config(background="#ff4444")
+            status_label1.config(text="Pluto1 Not Detected", foreground="#ff4444")
+            status_label2.config(text="Pluto2 Not Detected", foreground="#ff4444")
+            indicator_color = "#ff4444"
+        status_indicator.itemconfig(1, fill=indicator_color)    
+            
         # Schedule next check in 3 seconds
         root.after(3000, update_connection_status)
         # Run check in background thread to avoid blocking GUI
@@ -127,18 +155,29 @@ status_indicator = tk.Canvas(
     bg=BG_COLOR,
     highlightthickness=0
 )
-status_indicator.create_oval(2, 2, 10, 10, fill="#ff4444", outline="")
+global indicator_color 
+indicator_color = "#ff4444"
+status_indicator.create_oval(2, 2, 10, 10, fill=indicator_color)
 status_indicator.pack(side="left", padx=(0, 8))
 
 # Status label
-status_label = tk.Label(
+status_label1 = tk.Label(
     status_frame,
     text="Checking Connection...",
     font=("Segoe UI", 10),
     bg=BG_COLOR,
     fg="#888888"
 )
-status_label.pack(side="left")
+status_label1.pack(side="left")
+
+status_label2 = tk.Label(
+    status_frame,
+    text="Checking Connection...",
+    font=("Segoe UI", 10),
+    bg=BG_COLOR,
+    fg="#888888"
+)
+status_label2.pack(side="left")
 # Separator line
 separator = tk.Frame(main_frame, height=2, bg="#333333")
 separator.pack(fill="x", pady=(0, 20))
