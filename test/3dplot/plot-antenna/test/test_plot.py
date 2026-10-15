@@ -38,7 +38,7 @@ import matplotlib
 import numpy as np
 import plotly
 try:    
-    from smithplot.smithaxes import SmithAxes
+    from pysmithchart.axes import SmithAxes
 except ImportError:
     SmithAxes = None
 

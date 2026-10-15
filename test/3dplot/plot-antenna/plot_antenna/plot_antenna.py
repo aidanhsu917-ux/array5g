@@ -21,7 +21,7 @@ from matplotlib import cm, __version__ as matplotlib_version, rcParams, ticker
 from matplotlib.widgets import Slider
 from matplotlib.patches import Rectangle
 try:
-    from smithplot.smithaxes import SmithAxes
+    from pysmithchart.axes import SmithAxes
 except ImportError:
     SmithAxes = None
 try:
