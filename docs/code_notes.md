@@ -1,0 +1,153 @@
+# Issues by Date
+## 10-21-2026
+To avoid having to constantly overwrite the current model. What physically happens when we "update" the image?
+
+
+## 09-30-2026
+Code to generate environmental offset not found. 
+When moving outisde of abs(80) range, launcher script 1 ceases to function correctly. 
+Perceived offset may be double physical angle. 
+
+Occurence: when piping pandas for "3D antenna radiation pattern" (see clone zone)
+Marked as "Error refreshing packages"
+
+```log
+2026-09-30 14:52:46.443 [info] Python-envs extension version: 1.38.0
+2026-09-30 14:52:46.443 [info] 
+=== Python Envs Configuration Levels ===
+2026-09-30 14:52:46.443 [info] {
+  "section": "Python Envs Configuration Levels",
+  "defaultEnvManager": {
+    "workspaceFolderValue": "undefined",
+    "workspaceValue": "undefined",
+    "globalValue": "undefined",
+    "defaultValue": "ms-python.python:venv"
+  },
+  "defaultPackageManager": {
+    "workspaceFolderValue": "undefined",
+    "workspaceValue": "undefined",
+    "globalValue": "undefined",
+    "defaultValue": "ms-python.python:pip"
+  }
+}
+2026-09-30 14:52:46.443 [info] Python API: Projects changed. Added: 1, Removed: 0
+2026-09-30 14:52:46.443 [info] [pet] Starting Python Locator c:\Users\aidan\.vscode\extensions\ms-python.vscode-python-envs-1.38.0-win32-x64\python-env-tools\bin\pet.exe server
+2026-09-30 14:52:46.443 [info] Registering conda manager (environments will be discovered lazily)
+2026-09-30 14:52:46.443 [info] Registering pyenv manager (environments will be discovered lazily)
+2026-09-30 14:52:46.443 [info] Registering pipenv manager (environments will be discovered lazily)
+2026-09-30 14:52:46.443 [info] Registering poetry manager (environments will be discovered lazily)
+2026-09-30 14:52:46.443 [info] [interpreterSelection] Applying initial environment selection for 1 workspace folder(s)
+2026-09-30 14:52:46.443 [info] [pet] configure: Sending configuration update: {"workspaceDirectories":["c:\\Users\\aidan\\github\\clone_zone\\3D-Antenna-Radiation-Pattern"],"environmentDirectories":["C:/Users/aidan/AppData/Local/Programs/Python/Python314","c:/Users/aidan/github/clone_zone/3D-Antenna-Radiation-Pattern/.venv","c:/Users/aidan/github/clone_zone/3D-Antenna-Radiation-Pattern/*/.venv"],"pipenvExecutable":"pipenv","poetryExecutable":"poetry","cacheDirectory":"c:\\Users\\aidan\\AppData\\Roaming\\Code\\User\\globalStorage\\ms-python.vscode-python-envs\\pythonLocator"}
+2026-09-30 14:52:46.458 [error] [pet] [2m   0.049487500s[0m [33m WARN[0m [2mpet_windows_registry::environments[0m[2m:[0m Failed to open HKLM\Software\Python, Os { code: 2, kind: NotFound, message: "The system cannot find the file specified." }
+
+2026-09-30 14:52:46.461 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:46.465 [info] Extension for manager ms-python.python:venv is not active: Activating...
+2026-09-30 14:52:46.488 [info] Extension for manager ms-python.python:venv is now active.
+2026-09-30 14:52:46.504 [info] Refreshing Conda Environments
+2026-09-30 14:52:46.504 [info] Refreshing conda environments (hardRefresh=true)
+2026-09-30 14:52:46.504 [info] Refreshing Pyenv Environments
+2026-09-30 14:52:46.504 [info] Refreshing pyenv environments
+2026-09-30 14:52:46.504 [info] Refreshing Pipenv Environments
+2026-09-30 14:52:46.504 [info] Refreshing pipenv environments
+2026-09-30 14:52:46.504 [info] Refreshing Poetry Environments
+2026-09-30 14:52:46.504 [info] Refreshing poetry environments
+2026-09-30 14:52:46.579 [error] [pet] [2m   0.145749300s[0m [33m WARN[0m [2mpet_windows_registry::environments[0m[2m:[0m Failed to open HKLM\Software\Python, Os { code: 2, kind: NotFound, message: "The system cannot find the file specified." }
+
+2026-09-30 14:52:46.580 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:46.588 [info] Discovered env: C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:46.612 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:46.661 [info] Refreshing pyenv environments
+2026-09-30 14:52:46.867 [warning] No conda manager found in native finder data
+2026-09-30 14:52:46.867 [warning] No conda manager found in native finder data
+2026-09-30 14:52:46.868 [info] Pipenv not found via settings, cache, or PATH
+2026-09-30 14:52:46.868 [info] Found 0 pipenv environments
+2026-09-30 14:52:46.871 [info] Poetry executable not found
+2026-09-30 14:52:46.918 [info] Refreshing conda environments (hardRefresh=false)
+2026-09-30 14:52:46.919 [info] Refreshing poetry environments
+2026-09-30 14:52:46.923 [info] Pipenv not found via settings, cache, or PATH
+2026-09-30 14:52:46.923 [info] Refreshing pipenv environments
+2026-09-30 14:52:46.924 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:46.955 [warning] No conda manager found in native finder data
+2026-09-30 14:52:46.955 [warning] No conda manager found in native finder data
+2026-09-30 14:52:46.957 [info] Pipenv not found via settings, cache, or PATH
+2026-09-30 14:52:46.957 [info] Found 0 pipenv environments
+2026-09-30 14:52:46.958 [info] Poetry executable not found
+2026-09-30 14:52:46.989 [info] Pipenv not found via settings, cache, or PATH
+2026-09-30 14:52:46.993 [info] Conda not found, conda features will be inactive.
+2026-09-30 14:52:47.007 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:47.010 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:47.013 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:47.015 [info] [SYS_SET] scope=c:\Users\aidan\github\clone_zone\3D-Antenna-Radiation-Pattern, project=c:\Users\aidan\github\clone_zone\3D-Antenna-Radiation-Pattern, normalizedKey=c:/users/aidan/github/clone_zone/3d-antenna-radiation-pattern, env=defaultInterpreterPath:C:\Users\aidan\AppData\Local\Programs\Python\Python314
+2026-09-30 14:52:47.039 [info] Python API: Changed environment from undefined to defaultInterpreterPath: 3.14.6.final.0 for: c:\Users\aidan\github\clone_zone\3D-Antenna-Radiation-Pattern
+2026-09-30 14:52:47.039 [info] Internal: Changed environment from undefined to defaultInterpreterPath: 3.14.6.final.0 for: c:\Users\aidan\github\clone_zone\3D-Antenna-Radiation-Pattern
+2026-09-30 14:52:47.040 [info] [interpreterSelection] 3D-Antenna-Radiation-Pattern: defaultInterpreterPath: 3.14.6.final.0 (source: defaultInterpreterPath)
+2026-09-30 14:52:47.040 [info] [interpreterSelection] Workspace env resolved, deferring global scope to background
+2026-09-30 14:52:47.045 [info] Environment discovery complete: 1 environments found (Global: 1)
+2026-09-30 14:52:47.071 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:47.074 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:47.077 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:47.081 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:47.083 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:47.086 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:47.088 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:47.092 [info] Python API: Changed environment from undefined to defaultInterpreterPath: 3.14.6.final.0 for: global
+2026-09-30 14:52:47.092 [info] Internal: Changed environment from undefined to defaultInterpreterPath: 3.14.6.final.0 for: global
+2026-09-30 14:52:47.092 [info] [interpreterSelection] global: defaultInterpreterPath: 3.14.6.final.0 (source: defaultInterpreterPath)
+2026-09-30 14:52:49.576 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:49.582 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:49.587 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:49.591 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:49.595 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:49.599 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:53.338 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:53.343 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:53.349 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:53.356 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:53.363 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:52:53.367 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:54:21.590 [info] Running: uv --version
+2026-09-30 14:54:21.590 [info] Running: uv --version
+2026-09-30 14:54:21.592 [info] Running: C:\Users\aidan\AppData\Local\Programs\Python\Python314 -m pip list --format=json --disable-pip-version-check
+2026-09-30 14:54:21.592 [info] Running: C:\Users\aidan\AppData\Local\Programs\Python\Python314 -m pip list --format=json --not-required --disable-pip-version-check
+2026-09-30 14:54:21.593 [error] Error spawning python: Error: spawn C:\Users\aidan\AppData\Local\Programs\Python\Python314 ENOENT
+2026-09-30 14:54:21.593 [error] Error spawning python: Error: spawn C:\Users\aidan\AppData\Local\Programs\Python\Python314 ENOENT
+2026-09-30 14:54:21.593 [error] Error refreshing packages Error spawning python: spawn C:\Users\aidan\AppData\Local\Programs\Python\Python314 ENOENT
+2026-09-30 14:54:23.087 [info] Running: C:\Users\aidan\AppData\Local\Programs\Python\Python314 -m pip list --format=json --disable-pip-version-check
+2026-09-30 14:54:23.087 [info] Running: C:\Users\aidan\AppData\Local\Programs\Python\Python314 -m pip list --format=json --not-required --disable-pip-version-check
+2026-09-30 14:54:23.087 [error] Error spawning python: Error: spawn C:\Users\aidan\AppData\Local\Programs\Python\Python314 ENOENT
+2026-09-30 14:54:23.087 [error] Error spawning python: Error: spawn C:\Users\aidan\AppData\Local\Programs\Python\Python314 ENOENT
+2026-09-30 14:54:23.087 [error] Error refreshing packages Error spawning python: spawn C:\Users\aidan\AppData\Local\Programs\Python\Python314 ENOENT
+2026-09-30 14:54:39.594 [info] Running: C:\Users\aidan\AppData\Local\Programs\Python\Python314 -m pip list --format=json --disable-pip-version-check
+2026-09-30 14:54:39.594 [info] Running: C:\Users\aidan\AppData\Local\Programs\Python\Python314 -m pip list --format=json --not-required --disable-pip-version-check
+2026-09-30 14:54:39.594 [error] Error spawning python: Error: spawn C:\Users\aidan\AppData\Local\Programs\Python\Python314 ENOENT
+2026-09-30 14:54:39.594 [error] Error spawning python: Error: spawn C:\Users\aidan\AppData\Local\Programs\Python\Python314 ENOENT
+2026-09-30 14:54:39.595 [error] Error refreshing packages Error spawning python: spawn C:\Users\aidan\AppData\Local\Programs\Python\Python314 ENOENT
+2026-09-30 14:54:39.862 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:54:39.865 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:54:39.868 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:54:39.871 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:54:39.876 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+2026-09-30 14:54:39.879 [info] Resolved Python Environment C:\Users\aidan\AppData\Local\Programs\Python\Python314\python.exe
+```
+3 stacks of this error for all packages downloaded today. 
+DATA.CSV appears to be sample data. 
+
+## 09-29-2026
+```python
+def dbfs(raw_data):
+    # function to convert IQ samples to FFT plot, scaled in dBFS
+    NumSamples = len(raw_data)
+    win = np.hamming(NumSamples)
+    y = raw_data * win
+    s_fft = np.fft.fft(y) / np.sum(win)
+    s_shift = np.fft.fftshift(s_fft)
+    s_dbfs = 20*np.log10(np.abs(s_shift)/(2**11)) #triggers divide by 0 if log(0) taken
+    return s_dbfs
+```
+**What is the purpose of dbfs?**
+Remember: arange is like linspace in Matlab. 
+Arange does not use the endpoint, step size is 1, base start is 0. 
+If: the output for (object:np.array).shape[1] == 0, that empty space represents a 1. 
+When using (object:np.array).reshape(-1, a), the -1 refers to letting numpy guess the size of that axis. It's like don't care in comp arch. The 2nd axis is forced to match the size of a. 
+*np.fft.fftshift(arr_in)* takes arr_in, and outputs arr_in, but with the 0 freq component @ the center of the spectrum. 
+https://numpy.org/doc/2.5/reference/generated/numpy.fft.fftshift.html#numpy.fft.fftshift
