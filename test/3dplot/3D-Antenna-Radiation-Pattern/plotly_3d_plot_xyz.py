@@ -23,10 +23,16 @@ def main():
     data = pd.read_csv(file_path, header = None)
 
     phi = np.asarray(data.iloc[2:,1])
+<<<<<<< HEAD
     theta = np.asarray(data.iloc[1,2:])
     
     s_power = np.asarray(data.iloc[2:,2:])
 
+=======
+    #data.iloc[1:,0].to_csv("phi.csv")
+    theta = np.asarray(data.iloc[1,2:])
+    s_power = np.asarray(data.iloc[2:,2:])
+>>>>>>> 722beb301af028259cb16d6ff6ff4bf647beeb67
 
     s_power = 10**(s_power/10)#converting from db to watt
 
@@ -51,8 +57,8 @@ def main():
     Y = np.asarray(R * np.sin(THETA) * np.sin(PHI))
     Z = np.asarray(R * np.cos(THETA))
 
-    print(X.ravel()) #has negative values- how?
-    print(np.max(X))
+    #print(X.ravel())
+    #print(np.max(X)) #how are we getting an e17 magnitude value?
 
     #setup layout and plot on 3d surface
     #axis ranges do not match input values
