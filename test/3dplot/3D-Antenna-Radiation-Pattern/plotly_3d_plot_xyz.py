@@ -22,9 +22,11 @@ def main():
     #reading the csv measurement file
     data = pd.read_csv(file_path, header = None)
 
-    phi = np.asarray(data.iloc[1:,0])
-    theta = np.asarray(data.iloc[0,1:])
-    s_power = np.asarray(data.iloc[1:,1:])
+    phi = np.asarray(data.iloc[2:,1])
+    theta = np.asarray(data.iloc[1,2:])
+    
+    s_power = np.asarray(data.iloc[2:,2:])
+
 
     s_power = 10**(s_power/10)#converting from db to watt
 
