@@ -55,6 +55,7 @@ import numpy as np
 import pyqtgraph as pg # pyqtgraph will plot MUCH faster than matplotlib (https://pyqtgraph.readthedocs.io/en/latest/getting_started/installation.html)
 from pyqtgraph.Qt import QtCore, QtGui
 from half_moon_compass import HalfMoonCompass
+import pyvista as pv
 
 compass = HalfMoonCompass()
 
@@ -150,7 +151,7 @@ def scan_for_DOA():
     peak_sum = []
     peak_delta = []
     monopulse_phase = []
-    delay_phases = np.arange(-180, 180, 2) # phase delay in degrees
+    delay_phases = np.arange(-180, 180, 2) # phase delay in degrees. Arange is like linspace
 
     for phase_delay in delay_phases:
         delayed_Rx_1 = Rx_1 * np.exp(1j*np.deg2rad(phase_delay+phase_cal))
@@ -209,7 +210,7 @@ p1.getAxis("bottom").setTickFont(fn)
 '''Collect Data'''
 for i in range(20):
  # let Pluto run for a bit, to do all its calibrations
-    data = sdr.rx()
+    data = sdr.rx() #of type np.array
 
  #scan once to get the direction of arrival (steer_angle) as the initial point for out monopulse tracker
 delay_phases, peak_dbfs, peak_delay, steer_angle, peak_sum, peak_delta, monopulse_phase = scan_for_DOA()
