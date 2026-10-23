@@ -4,10 +4,10 @@ import pyvista as pv
 global t
 t = 0.0
 
-def update_data(step):
-    t += 0.05
-    mesh.points[:, 1] = np.sin(x + t)
-    pl.render()  # Redraw canvas frame
+# def update_data(step):
+#     t += 0.05
+#     mesh.points[:, 1] = np.sin(x + t)
+#     pl.render()  # Redraw canvas frame
 
 def main():
     plotter = pv.Plotter()
@@ -83,10 +83,11 @@ def main():
         always_visible=True
     )
 
-    plotter.iren.initialize()
+    # plotter.iren.initialize()
 
-    plotter.add_timer_event(duration=16, callback=update_data)
+    # plotter.add_timer_event(duration= 1000, callback=update_data)
     #for continuous, do not include max_steps
+    #duration in ms
 
     plotter.show()
 
