@@ -10,6 +10,7 @@
 ################################################
 
 import math
+import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 from math import cos, sin, sqrt, atan2, acos
@@ -199,6 +200,8 @@ def PlotAndExport(Fields):
     mesh = pv.StructuredGrid(X, Y, Z)
 
     mesh["Field Strength (Radius)"] = radii.ravel(order='F')
+    pd.DataFrame(radii).to_csv("radii.csv", index=False)
+    
     
     # Show the result in a plotter window
     p = pv.Plotter()

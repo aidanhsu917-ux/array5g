@@ -71,7 +71,8 @@ def main():
         always_visible=True
     )
 
-    actor = pv.Sphere()
+    mesh = pv.Sphere(radius=0.1) 
+    actor = plotter.add_mesh(mesh)
 
     plotter.iren.initialize()
 
@@ -79,15 +80,16 @@ def main():
             #step is the number of times the event has happened
             # mesh.points[:, 1] = np.sin(x + t)
             # pl.render()  # Redraw canvas frame
-            phi = rng.random() * 2 * np.pi
+            phi = .25 * 2 * np.pi
             theta = rng.random() * 2 * np.pi
 
             x = 3 * np.sin(phi) * np.cos(theta)
             y = 3 * np.sin(phi) * np.sin(theta)
             z = 3 * np.cos(phi)
 
+            print(x, y, z)
+
             actor.position = [x, y, z]
-            print(f" x = {x}, y = {y}, z = {z}")
 
     plotter.add_timer_event(max_steps = 10000000, duration= 1000, callback=update_data)
     #for continuous, do not include max_steps
