@@ -2,6 +2,7 @@
 import redis
 import numpy as np
 import pyvista as pv
+from pathlib import Path
 
 # Connect to the local Redis server
 r = redis.Redis(host='localhost', port=6379, db=0)
@@ -14,7 +15,18 @@ print("📡 Receiver online. Waiting for live Pluto DOA angles...")
 
 # Set up a starting fallback angle so the sphere has coordinates before data streams in
 live_angle = 0.0
-radii = np.loadtxt("radii.csv", delimiter=",")
+script_dir = Path(__file__).resolve().parent
+data_path = script_dir / "radii.csv"
+path_plot_mesh = script_dir / "plot_mesh.ply"
+
+#ensure that both files requested exist
+if not data_path.is_file():
+    raise FileNotFoundError(f"no file found at {data_path}")
+
+if not path_plot_mesh.is_file():
+    raise FileNotFoundError(f"no file found at {path_plot_mesh}")
+
+radii = np.loadtxt(data_path, delimiter=",")
 
 def align_mesh_to_vector(target_vector, base_axis=(0, 0, 1)):
     """
@@ -29,7 +41,7 @@ def align_mesh_to_vector(target_vector, base_axis=(0, 0, 1)):
     # Normalized direction vector
     z_prime = target / norm
     
-    # Pick a temporary vector to compute orthoganal axes (handle edge case if parallel)
+    # Pick a temporary vector to compute orthogonal axes (handle edge case if parallel)
     tmp = np.array([1.0, 0.0, 0.0]) if abs(z_prime[0]) < 0.9 else np.array([0.0, 1.0, 0.0])
     
     x_prime = np.cross(tmp, z_prime)
@@ -113,7 +125,7 @@ def main():
     )
 
     # Add target tracking indicator sphere
-    antenna_mesh = pv.read("plot_mesh.ply")
+    antenna_mesh = pv.read(path_plot_mesh)
     antenna_mesh = antenna_mesh.scale(3.5, inplace=False)
     antenna_mesh = antenna_mesh.rotate_z(90, inplace=False)
     antenna_mesh["Field Strength"] = radii.ravel(order='F')
