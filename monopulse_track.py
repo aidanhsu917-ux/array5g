@@ -62,7 +62,7 @@ compass = HalfMoonCompass()
 '''Setup'''
 samp_rate = 2e6 # must be <=30.72 MHz if both channels are enabled
 NumSamples = 2**12
-rx_lo = 2.3e9
+rx_lo = 900e6
 rx_mode = "manual" # can be "manual" or "slow_attack"
 rx_gain0 = 40
 rx_gain1 = 40
@@ -144,6 +144,7 @@ def monopulse_angle(array1, array2):
     return angle_diff
 
 def scan_for_DOA():
+    print("I Changed It!")
  # go through all the possible phase shifts and find the peak, that will be the DOA (direction of arrival) aka steer_angle
     data = sdr.rx()
     Rx_0=data[0]

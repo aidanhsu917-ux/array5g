@@ -49,13 +49,15 @@ View [Sep 16 2026] on Github:
 #
 # All rights reserved.
 
+#To get program to work, run memurai-cli
+
 #imports
 import redis
 import time
 import adi
 import numpy as np
 import pyqtgraph as pg # pyqtgraph will plot MUCH faster than matplotlib (https://pyqtgraph.readthedocs.io/en/latest/getting_started/installation.html)
-from pyqtgraph.Qt import QtCore, QtGui
+from pyqtgraph.Qt import QtCore, QtGui, QtWidgets
 from half_moon_compass import HalfMoonCompass
 import pyvista as pv
 
@@ -66,7 +68,7 @@ compass = HalfMoonCompass()
 '''Setup'''
 samp_rate = 2e6 # must be <=30.72 MHz if both channels are enabled
 NumSamples = 2**12
-rx_lo = 2.3e9
+rx_lo = 900e6
 rx_mode = "manual" # can be "manual" or "slow_attack"
 rx_gain0 = 40
 rx_gain1 = 40
@@ -187,7 +189,7 @@ def Tracking(last_delay):
     delayed_sum_fft, delayed_sum_dbfs = dbfs(delayed_sum)
     delayed_delta_fft, delayed_delta_dbfs = dbfs(delayed_delta)
     mono_angle = monopulse_angle(delayed_sum_fft, delayed_delta_fft)
-    angle = calcTheta(delay) # whatever angle you already compute
+    angle = calcTheta(last_delay) # angle for the delay being evaluated this step
     compass.update(angle)
     phase_step= 1
 
@@ -223,6 +225,43 @@ tracking_angles = np.ones(tracking_length)*180
 tracking_angles[:-1] = -180 # make a line across the plot when tracking begins
 
 curve1 = p1.plot(tracking_angles)
+
+def reset_program():
+    """Re-scan for the direction of arrival and restart the tracking trace.
+    phase_cal is kept, so a previous calibration survives a reset."""
+    global delay, tracking_angles
+    timer.stop()  # pause tracking while we re-scan
+    try:
+        _, _, new_peak_delay, new_steer_angle, _, _, _ = scan_for_DOA()
+        delay = new_peak_delay
+        tracking_angles = np.ones(tracking_length)*180
+        tracking_angles[:-1] = -180  # line across the plot when tracking begins
+        compass.update(calcTheta(delay))
+        print("Reset: re-scanned, DOA =", new_steer_angle, "deg")
+    finally:
+        timer.start(0)
+
+def calibrate_zero():
+    """Point the target at boresight (0 deg), then click. Folds the current
+    delay into phase_cal so that this position reads as theta = 0."""
+    global phase_cal, delay
+    phase_cal += delay
+    delay = 0
+    compass.update(0)
+    print("Calibrated: phase_cal =", phase_cal, "deg")
+
+# Buttons, placed under the plot in the pyqtgraph window
+btn_reset = QtWidgets.QPushButton("Reset")
+btn_cal = QtWidgets.QPushButton("Center at 0\u00b0")
+btn_reset.clicked.connect(reset_program)
+btn_cal.clicked.connect(calibrate_zero)
+
+proxy_reset = QtWidgets.QGraphicsProxyWidget()
+proxy_reset.setWidget(btn_reset)
+proxy_cal = QtWidgets.QGraphicsProxyWidget()
+proxy_cal.setWidget(btn_cal)
+win.addItem(proxy_reset, row=1, col=0)
+win.addItem(proxy_cal, row=2, col=0)
 
 def update_tracker():
     global tracking_angles, delay
